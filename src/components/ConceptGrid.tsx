@@ -145,6 +145,10 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
         </div>
       )}
 
+      <footer className="footer">
+        Một sản phẩm của conan.school
+      </footer>
+
       {isLoading && (
         <div className="loading-overlay">
           <div className="loader"></div>
@@ -264,6 +268,15 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .footer {
+          text-align: center;
+          padding: 4rem 0 2rem;
+          font-size: 0.85rem;
+          color: #bbb;
+          letter-spacing: 0.02em;
+          font-family: var(--font-inter), sans-serif;
+        }
 
         @media (max-width: 768px) {
           .modal-text-container { padding: 3rem 1.5rem; }
