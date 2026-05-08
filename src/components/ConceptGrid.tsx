@@ -21,6 +21,15 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
   const [filter, setFilter] = useState('Tất cả');
   const [selectedConcept, setSelectedConcept] = useState<Concept | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [readConcepts, setReadConcepts] = useState<string[]>([]);
+
+  // Load danh sách đã đọc từ localStorage khi trang vừa mở
+  useEffect(() => {
+    const saved = localStorage.getItem('read_concepts');
+    if (saved) {
+      setReadConcepts(JSON.parse(saved));
+    }
+  }, []);
 
   // Lấy danh sách các category duy nhất
   const categories = ['Tất cả', ...Array.from(new Set(initialConcepts.map(c => c.category)))];
@@ -33,6 +42,13 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
     const concept = initialConcepts.find(c => c.slug === slug);
     if (concept) {
       setSelectedConcept(concept);
+      
+      // Đánh dấu đã đọc nếu chưa có trong danh sách
+      if (!readConcepts.includes(slug)) {
+        const newRead = [...readConcepts, slug];
+        setReadConcepts(newRead);
+        localStorage.setItem('read_concepts', JSON.stringify(newRead));
+      }
     }
   };
 
@@ -77,7 +93,7 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
                   <div className="flip-card-front">
                     <div className="title">{concept.english_title}</div>
                     <div className="status">
-                      {concept.status === 'published' || concept.status === 'đã đọc' ? 'đã đọc' : ''}
+                      {readConcepts.includes(concept.slug) ? 'Đã đọc' : ''}
                     </div>
                   </div>
                   <div 
