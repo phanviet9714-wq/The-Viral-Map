@@ -101,7 +101,7 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
                   <div className="flip-card-front">
                     <div className="title">{concept.english_title}</div>
                     <div className="status">
-                      {readConcepts.includes(concept.slug) ? 'Đã đọc' : ''}
+                      {readConcepts.includes(concept.slug) ? 'đã đọc' : ''}
                     </div>
                   </div>
                   <div 
