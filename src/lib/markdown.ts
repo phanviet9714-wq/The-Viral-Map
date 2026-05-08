@@ -18,18 +18,26 @@ export interface Concept {
   contentHtml: string;
 }
 
+const conceptSlugs = [
+  'Concept_Concrete',
+  'Concept_Contradian_Hook',
+  'Concept_Credible',
+  'Concept_Emotional',
+  'Concept_Gain_based_Hook',
+  'Concept_In_Media_Res_Hook',
+  'Concept_Pain_based_Hook',
+  'Concept_Simple_V3',
+  'Concept_Stories',
+  'Concept_Unexpected',
+  'Concept_Verbal_Hook',
+  'Concept_Visual_Hook'
+];
+
 export async function getAllConcepts(): Promise<Concept[]> {
-  if (!fs.existsSync(contentDirectory)) {
-    return [];
-  }
-  const fileNames = fs.readdirSync(contentDirectory);
   const allConcepts = await Promise.all(
-    fileNames
-      .filter((fileName) => fileName.endsWith('.md'))
-      .map(async (fileName) => {
-        const slug = fileName.replace(/\.md$/, '');
-        return await getConceptData(slug);
-      })
+    conceptSlugs.map(async (slug) => {
+      return await getConceptData(slug);
+    })
   );
 
   return allConcepts.sort((a, b) => (a.date < b.date ? 1 : -1));
