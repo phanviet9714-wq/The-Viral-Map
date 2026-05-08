@@ -29,16 +29,10 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
     ? initialConcepts 
     : initialConcepts.filter(c => c.category === filter);
 
-  const openModal = async (slug: string) => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`/api/concept?slug=${slug}`);
-      const data = await res.json();
-      setSelectedConcept(data);
-    } catch (error) {
-      console.error('Error fetching concept:', error);
-    } finally {
-      setIsLoading(false);
+  const openModal = (slug: string) => {
+    const concept = initialConcepts.find(c => c.slug === slug);
+    if (concept) {
+      setSelectedConcept(concept);
     }
   };
 
@@ -90,7 +84,7 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
                     className="flip-card-back" 
                     style={{ 
                       backgroundImage: concept.cover_image 
-                        ? `url(/api/assets?name=${encodeURIComponent(concept.cover_image)})`
+                        ? `url(${concept.cover_image})`
                         : `url(https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1000)`
                     }}
                   >
@@ -114,7 +108,7 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
                   <div 
                     className="modal-hero"
                     style={{ 
-                      backgroundImage: `url(/api/assets?name=${encodeURIComponent(selectedConcept.cover_image)})`
+                      backgroundImage: `url(${selectedConcept.cover_image})`
                     }}
                   />
                   {selectedConcept.cover_caption && (

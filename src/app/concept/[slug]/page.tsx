@@ -34,7 +34,7 @@ export default async function ConceptPage({ params }: PageProps) {
           width: '100%', 
           aspectRatio: '16/9', 
           backgroundImage: concept.cover_image 
-            ? `url(/api/assets?name=${encodeURIComponent(concept.cover_image)})`
+            ? `url(${concept.cover_image})`
             : `url(https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1000)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
