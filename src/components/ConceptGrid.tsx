@@ -42,13 +42,21 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
     const concept = initialConcepts.find(c => c.slug === slug);
     if (concept) {
       setSelectedConcept(concept);
-      
-      // Đánh dấu đã đọc nếu chưa có trong danh sách
-      if (!readConcepts.includes(slug)) {
-        const newRead = [...readConcepts, slug];
-        setReadConcepts(newRead);
-        localStorage.setItem('read_concepts', JSON.stringify(newRead));
-      }
+    }
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (!selectedConcept || readConcepts.includes(selectedConcept.slug)) return;
+
+    const target = e.currentTarget;
+    // Kiểm tra nếu người dùng cuộn đến cách đáy dưới 50px
+    const isAtBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 50;
+
+    if (isAtBottom) {
+      const slug = selectedConcept.slug;
+      const newRead = [...readConcepts, slug];
+      setReadConcepts(newRead);
+      localStorage.setItem('read_concepts', JSON.stringify(newRead));
     }
   };
 
@@ -114,7 +122,7 @@ export default function ConceptGrid({ initialConcepts }: ConceptGridProps) {
 
       {/* Modal Overlay */}
       {selectedConcept && (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className="modal-overlay" onClick={closeModal} onScroll={handleScroll}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={closeModal}>&times;</button>
             
